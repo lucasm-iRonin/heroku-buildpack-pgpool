@@ -9,6 +9,8 @@ wget https://github.com/devopscenter/heroku-buildpack-pgpool/raw/master/bin/pgpo
 
 chmod 755 /app/vendor/pgpool/pgpool
 
+wget https://raw.githubusercontent.com/devopscenter/docker-stack/master/web/python-apache-pgpool/pgpool/pool_hba.conf -O /app/vendor/pgpool/pool_hba.conf
+
 POSTGRES_URLS=${PGBOUNCER_URLS:-DATABASE_URL}
 
 i=0
