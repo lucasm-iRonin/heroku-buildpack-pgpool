@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 
+mkdir -p /app/vendor/pgpool
+
+wget https://raw.githubusercontent.com/devopscenter/heroku-buildpack-pgpool/master/etc/pgpool.conf -O /app/vendor/pgpool/pgpool.conf
+
+wget https://github.com/devopscenter/heroku-buildpack-pgpool/raw/master/bin/pgpool-3.4.2 -O /app/vendor/pgpool/pgpool
+
+chmod 755 /app/vendor/pgpool/pgpool
+
 POSTGRES_URLS=${PGBOUNCER_URLS:-DATABASE_URL}
+
+i=0
 
 for POSTGRES_URL in $POSTGRES_URLS
 do
@@ -15,14 +25,17 @@ do
   DB_MD5_PASS="md5"`echo -n ${DB_PASS}${DB_USER} | md5sum | awk '{print $1}'`
 
   cat >> /app/vendor/pgpool/pgpool.conf << EOFEOF
-backend_hostname0 = '$DB_HOST'
-backend_port0 = $DB_PORT
-backend_weight0 = 1
-backend_data_directory0 = '/data'
-backend_flag0 = 'ALLOW_TO_FAILOVER'
+backend_hostname$i = '$DB_HOST'
+backend_port$i = $DB_PORT
+backend_weight$i = 1
+backend_data_directory$i = '/data'
+backend_flag$i = 'ALLOW_TO_FAILOVER'
 health_check_user = '$DB_USER'
 health_check_password = '$DB_PASS'
+sr_check_user = '$DB_USER'
+sr_check_password = '$DB_PASS'
 EOFEOF
 
+  i=$(($i+1))
 done
 
