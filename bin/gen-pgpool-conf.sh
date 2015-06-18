@@ -33,8 +33,10 @@ backend_data_directory$i = '/data'
 backend_flag$i = 'ALLOW_TO_FAILOVER'
 health_check_user = '$DB_USER'
 health_check_password = '$DB_PASS'
+health_check_period = 0
 sr_check_user = '$DB_USER'
 sr_check_password = '$DB_PASS'
+sr_check_period = 0
 EOFEOF
 
   i=$(($i+1))
