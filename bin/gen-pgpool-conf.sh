@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 mkdir -p /app/vendor/pgpool
+mkdir -p /app/vendor/postgresql
 
 wget https://raw.githubusercontent.com/devopscenter/heroku-buildpack-pgpool/master/etc/pgpool.conf -O /app/vendor/pgpool/pgpool.conf
 
